@@ -1,0 +1,129 @@
+---
+layout: page
+title: "About me"
+description: "Hello world, this is Witt."
+header-img: "img/about-bg.jpg"
+---
+
+<!-- Language Selector -->
+<select onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
+    <option value="0" selected> 中文 Chinese </option>
+    <option value="1"> 英语 English </option>
+</select>
+
+<!-- Chinese Version -->
+<div class="zh post-container">
+    <blockquote>
+        看看论文，写写代码。
+        博观约取，厚积薄发。
+    </blockquote>
+    Hello world，我是陈为通，江湖上到处流传着我的传说，人送外号“胃痛”。北京大学研究生在读，初入软件行业不怕虎，还请各位大佬多多指教啊！
+	<br><br>技能正在开发中……
+	<br><br>大招正在开发中……
+	<br><br>目前GitHub博客也还在开发中……各位看官先将就着看哈~
+	
+    <p style="text-align:right;">
+        —— <a href="https://blog.csdn.net/primetong">陈胃痛 － CSDN博客 </a>
+    </p>
+
+</div>
+
+<!-- English Version -->
+<div class="en post-container">
+    <blockquote>
+        Stay hungry. Stay foolish.
+    </blockquote>
+
+    <p>
+        Hello world,this is Witt.This blog is still being constructed.
+    </p>
+
+    <p>
+		One's real value first lies in to what degree and what sense he set himself.(Einstein Germany)
+    </p>
+
+    <p style="text-align:right;">
+    Stay hungry. Stay foolish. -- Steve Jobs
+    </p>
+
+</div>
+
+<!-- Handle Language Change -->
+<script type="text/javascript">
+    var $zh = document.querySelector(".zh");
+    var $en = document.querySelector(".en");
+    function onLanChange(index){
+        if(index == 0){
+            $zh.style.display = "block";
+            $en.style.display = "none";
+        }else{
+            $en.style.display = "block";
+            $zh.style.display = "none";
+        }
+    }
+    onLanChange(0);
+</script>
+
+
+
+<!-- {% if site.duoshuo_username %} -->
+<!-- 多说评论框 start -->
+<!-- <div class="comment">
+    <div class="ds-thread"
+    {% if site.duoshuo_username == "wittblog" %}
+        data-thread-id="1187623191091085319"
+    {% else %}
+        data-thread-key="{{site.duoshuo_username}}/about"
+    {% endif %}
+
+    data-title="{{page.title}}"
+    data-url="{{site.url}}/about/"></div>
+</div> -->
+<!-- 多说评论框 end -->
+
+<!-- Duoshuo hacking -->
+<!-- <input id="dsUser" type="hidden" value="{{site.duoshuo_username}}"  /> -->
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<!-- <script type="text/javascript">
+    // dynamic User hacking by Witt
+    var _user = document.getElementById('dsUser').value;
+    // duoshuo comment query.
+    var duoshuoQuery = {short_name: _user };
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script> -->
+<!-- 多说公共JS代码 end -->
+<!-- {% endif %}
+
+
+{% if site.disqus_username %} -->
+<!-- disqus 评论框 start -->
+<!-- <div class="comment">
+    <div id="disqus_thread" class="disqus-thread">
+
+    </div>
+</div> -->
+<!-- disqus 评论框 end -->
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<!-- <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "{{site.disqus_username}}";
+    var disqus_identifier = "{{site.disqus_username}}/{{page.url}}";
+    var disqus_url = "{{site.url}}{{page.url}}";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+<!-- disqus 公共JS代码 end -->
+<!-- {% endif %} -->
