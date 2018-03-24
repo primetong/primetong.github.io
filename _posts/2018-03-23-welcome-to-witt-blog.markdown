@@ -24,7 +24,7 @@ tags:
 
 作为一个程序员， Blog 这种轮子要是挂在大众博客程序上就太没意思了。一是觉得大部分 Blog 服务都太丑，二是觉得不能随便定制不好玩。之前没太折腾，只有在CSDN上发了一些 Blog。想看的戳链接：[陈胃痛的CSDN博客](https://blog.csdn.net/primetong)
 
-在玩了一段时间CSDN博客之后，写博客的快感以及上述两点原因又激起了我开GitHub博客的冲动。之前的一些博客后期会陆陆续续整理进来，能够通过Git Flow风格的Commit来Post博客感觉实在棒，整个人都Geek了起来哈哈。
+在玩了一段时间CSDN博客之后，写博客的快感以及上述两点原因又激起了我开GitHub博客的冲动。之前的一些博客后期会陆陆续续整理进来，能够通过Git Workflow风格的Commit来Post博客感觉实在棒，整个人都Geek了起来哈哈。
 
 <p id = "build"></p>
 
@@ -161,7 +161,7 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 * 这篇博客主要讲这个博客是搭建过程，想看其他博客内容的请移步[胃痛的博客](https://primetong.github.io/)
 * 采用jekyll搭建
 * 使用了Hux的模板，在其基础上增删了一些功能，喜欢可以打Star~
-* 如果仅仅是喜欢模板请看[模板的使用教程](/README.zh.md)
+* 如果仅仅是喜欢模板请看[模板的使用教程](https://github.com/primetong/primetong.github.io/blob/master/README.zh.md)
 
 ---
 
