@@ -68,13 +68,23 @@
                         </a>
                     </li>
                     {% endif %}
+                    {% if site.linkedin_username %}
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/{{ site.linkedin_username }}">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    {% endif %}
                 </ul>
                 <p class="copyright text-muted">
                     Copyright &copy; {{ "Witt Blog" }} {{ site.time | date: '%Y' }}
                     <br>
                     <iframe
                         style="margin-left: 2px; margin-bottom:-5px;"
-                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
                         src="https://ghbtns.com/github-btn.html?user=primetong&repo=primetong.github.io&type=star&count=true" >
                     </iframe>
                 </p>
@@ -87,11 +97,17 @@
 <script src="{{ "/js/jquery.min.js " | prepend: site.baseurl }}"></script>
 
 <!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
 <script src="{{ "/js/bootstrap.min.js " | prepend: site.baseurl }}"></script>
 
 <!-- Custom Theme JavaScript -->
 <script src="{{ "/js/witt-blog.min.js " | prepend: site.baseurl }}"></script>
 
+<!-- Service Worker -->
+{% if site.service-worker %}
+<script src="{{ "/js/snackbar.js " | prepend: site.baseurl }}"></script>
+<script src="{{ "/js/sw-registration.js " | prepend: site.baseurl }}"></script>
+{% endif %}
 
 <!-- async load function -->
 <script>
@@ -105,14 +121,15 @@
     }
 </script>
 
-<!-- 
-     Because of the native support for backtick-style fenced code blocks 
-     right within the Markdown is landed in Github Pages, 
-     From V1.6, There is no need for Highlight.js, 
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
      so Wittblog drops it officially.
 
-     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
-     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
 -->
 <!--
     <script>
@@ -128,7 +145,7 @@
 <script>
     // only load tagcloud.js in tag.html
     if($('#tag_cloud').length !== 0){
-        async("/js/jquery.tagcloud.js",function(){
+        async('{{ "/js/jquery.tagcloud.js" | prepend: site.baseurl }}',function(){
             $.fn.tagcloud.defaults = {
                 //size: {start: 1, end: 1, unit: 'em'},
                 color: {start: '#bbbbee', end: '#0085a1'},
@@ -140,7 +157,7 @@
 
 <!--fastClick.js -->
 <script>
-    async("http://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
         var $nav = document.querySelector("nav");
         if($nav) FastClick.attach($nav);
     })
