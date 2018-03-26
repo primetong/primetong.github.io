@@ -41,25 +41,34 @@ OpenCV（开源计算机视觉库）是在BSD许可下发布的，因此它在�
 
 以上两个教程亲测有效，如果你想要OpenCV2 + 3共存使用的话，只需分别使用VS属性管理器中的的Win32和x64分别对不同的库进行添加即可（建议默认使用2.4.9版本，按以上两个教程走就可以达到目的），下图以DEBUG的为例：
 
+![Debug-Win32-x64](/img/in-post/	opencv-configure-jpeg-analyse/debug-win32-x64.png)
+
 不管你是32位还是64位操作系统，只用管你用win32编译器还是X64 编译器。
 其实配置选择什么跟64位还是32位系统没有直接的关系，而是在于你在编译你的程序的时候是使用那个编译器。
 编译器是win32，就用x86
 编译器是X64，就用X64。不过一般情况下，都是用的win32的X86编译器。因此将2.4.9版本添加进Win32的属性管理器：
 
+![Win32-property-page](/img/in-post/	opencv-configure-jpeg-analyse/win32-property-page.png)
+
 将3.3.0版本添加进x64的属性管理器：
+
+![X64-property-page](/img/in-post/opencv-configure-jpeg-analyse/x64-property-page.png)
 
 之后在使用中根据需要（一般默认是Win32也就是使用2.4.9版本），切换对应版本（想使用3.3.0就将配置好的x64的属性管理器添加进工程，然后在配置管理器中修改使用x64进行编译调试）
 
 
 ### 二、JPEG压缩源码分析
 JPEG 是Joint Photographic Experts Group（联合图像专家小组）的缩写，是第一个国际图像压缩标准。JPEG图像压缩算法能够在提供良好的压缩性能的同时，具有比较好的重建质量，被广泛应用于图像、视频处理领域。
-示例程序是一个BMP转JPEG的压缩源码，整个工程文件见下载页面
+示例程序是一个BMP转JPEG的压缩源码，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/JPEG)
 
 * IDE：DEV-C++
 
 * 语言：C
 
 下面简单地做一下解析：
+
+```
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -868,27 +877,30 @@ int main(int argc, char *argv[])
 	free(bitcode_alloc);
 	fclose(fp_jpeg_stream);
 }
+
+```
+
 1.通过对以上BMP转JPEG的源码的分析来熟悉JPEG压缩和解压缩流程：
 
-①主程序中先是声明变量的过程，接着通过字符串操作把主程序参数输入图像的后缀由.bmp改成了.jpg，这步主要就是获取到输入图像的名字。如果没有读到图像，则会打印出一串错误信息：
+* ①主程序中先是声明变量的过程，接着通过字符串操作把主程序参数输入图像的后缀由.bmp改成了.jpg，这步主要就是获取到输入图像的名字。如果没有读到图像，则会打印出一串错误信息：
 
+![Jpeg-error](/img/in-post/opencv-configure-jpeg-analyse/jpeg-error.png)
 
+* ②接着装载图片，将原始图像读入内存，并且进行字节对齐处理，把长宽定为8的倍数以便下一步的宏模块分割，然后将图像作倒置（X,Y轴）处理。之后通过fopen函数在当前目录下打开输入的图片赋给文件指针fp_jpeg_stream，并设置为wb即写二进制文件操作。
 
-②接着装载图片，将原始图像读入内存，并且进行字节对齐处理，把长宽定为8的倍数以便下一步的宏模块分割，然后将图像作倒置（X,Y轴）处理。之后通过fopen函数在当前目录下打开输入的图片赋给文件指针fp_jpeg_stream，并设置为wb即写二进制文件操作。
+* ③初始化：初始化各种量化表，这里面调用了好多量化排序的函数（根据亮度表色度表以及哈傅曼编码）、把RGB转换成YCbCr、滤波，就是JPEG中预处理的过程，在初始化中的prepare_quant_tables()函数中还有一个8*8的宏模块设置（还在空间域）
 
-③初始化：初始化各种量化表，这里面调用了好多量化排序的函数（根据亮度表色度表以及哈傅曼编码）、把RGB转换成YCbCr、滤波，就是JPEG中预处理的过程，在初始化中的prepare_quant_tables()函数中还有一个8*8的宏模块设置（还在空间域）
+* ④接着标记图像的帧开始、版本信息、定义量化表（量化因子选的是50）的过程
 
-④接着标记图像的帧开始、版本信息、定义量化表（量化因子选的是50）的过程
+* ⑤接下来进行快速离散余弦变化并量化（分别处理三个分量Y、Cb、Cr，使用zigzag方式对数据进行排序，对直流分量进行专门的差分编码，交流分量进行按zigzag顺序编码，霍夫曼编码存储）
 
-⑤接下来进行快速离散余弦变化并量化（分别处理三个分量Y、Cb、Cr，使用zigzag方式对数据进行排序，对直流分量进行专门的差分编码，交流分量进行按zigzag顺序编码，霍夫曼编码存储）
-
-⑥释放缓冲区、空间、IO流
+* ⑥释放缓冲区、空间、IO流
 
 （2）编译并用测试照片（工程目录下的1.bmp）进行实验，观察源文件和生成jpg文件大小，计算出压缩率：
 
+![Jpeg-param](/img/in-post/opencv-configure-jpeg-analyse/jpeg-param.png)
 
-
-
+![Jpeg-result-one](/img/in-post/opencv-configure-jpeg-analyse/jpeg-result-one.png)
 
 压缩率 = (95.9/(5.49*1024)) * 100% ≈1.7%
 
@@ -896,14 +908,64 @@ int main(int argc, char *argv[])
 
 在源码中，有个函数：load_data_units_from_RGB_buffer，是负责从RGB缓存中读取数据的，只需对这段函数中RGB的值稍作修改即可完成图像取反运算。
 
+```
+void load_data_units_from_RGB_buffer(WORD xpos, WORD ypos)
+{
+	BYTE x, y;
+	BYTE pos = 0;
+	DWORD location;
+	BYTE R, G, B;
 
+	location = ypos * width + xpos;
+	for (y=0; y<8; y++)
+	{
+		for (x=0; x<8; x++)               //图像取反前
+		{
+			R = RGB_buffer[location].R;
+			G = RGB_buffer[location].G;
+			B = RGB_buffer[location].B;
+			// convert to YCbCr
+			YDU[pos] = Y(R,G,B);
+			CbDU[pos] = Cb(R,G,B);
+			CrDU[pos] = Cr(R,G,B);			
+			location++;
+			pos++;
+		}
+		location += width - 8;
+	}
+}
+```
 
+```
+void load_data_units_from_RGB_buffer(WORD xpos, WORD ypos)
+{
+	BYTE x, y;
+	BYTE pos = 0;
+	DWORD location;
+	BYTE R, G, B;
 
+	location = ypos * width + xpos;
+	for (y=0; y<8; y++)
+	{
+		for (x=0; x<8; x++)              //图像取反处理 
+		{
+			R = 0xff - RGB_buffer[location].R;
+			G = 0xff - RGB_buffer[location].G;
+			B = 0xff - RGB_buffer[location].B;
+			// convert to YCbCr
+			YDU[pos] = Y(R,G,B);
+			CbDU[pos] = Cb(R,G,B);
+			CrDU[pos] = Cr(R,G,B);			
+			location++;
+			pos++;
+		}
+		location += width - 8;
+	}
+}
+```
 
 就是拿255去减RGB值，出来的就是取反图像：
 
+![Jpeg-result-two](/img/in-post/opencv-configure-jpeg-analyse/jpeg-result-two.png)
 
-
-BMP转JPEG压缩源码与取反运算修改及分析，整个工程文件见下载页面
-
-OpenCV图像处理入门学习教程系列，下一篇第二篇：不同阈值二值化图像
+BMP转JPEG压缩源码与取反运算修改及分析，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/JPEG)
