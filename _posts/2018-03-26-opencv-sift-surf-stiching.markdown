@@ -119,7 +119,7 @@ SIFT特征匹配的例子：
 > //提取特征点（源代码第27行）     
 Ptr<Feature2Df2d = xfeatures2d::SIFT::create();	//修改代码中的SIFT参数即可修改算法（比如SURF等）
 
-部分参考代码如下，相应位置有详细注释，整个工程文件见下载页面：
+部分参考代码如下，相应位置有详细注释，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/ImgStiching)：
 
 ```
 
@@ -248,4 +248,4 @@ Point2f getTransformPoint(const Point2f originalPoint, const Mat &transformMaxtr
 
 通过刚刚的处理效果图的比较，可以明显地比较出SIFT的优势在于对待拼接图片小幅度旋转的适应性，精准度较高；而SURF算法对于待拼接图片的平直性要求很高，稍微旋转的图片拼接后已经失真。查阅资料得知SURF算法的优势在于速度方面有明显的提高（速度是SIFT的3倍）。
 
-基于SIFT特征和SURF特征的微旋转图像拼接与融合生成全景图像，整个工程文件见下载页面
+基于SIFT特征和SURF特征的微旋转图像拼接与融合生成全景图像，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/ImgStiching)
