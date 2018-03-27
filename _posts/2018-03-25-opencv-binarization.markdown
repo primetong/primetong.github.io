@@ -115,9 +115,9 @@ int main(int argc, char** argv)
 
 运行结果如下：
 
-![Jpeg-error](/img/in-post/opencv-binarization/binarization-origin.png)
+![Bin-origin](/img/in-post/opencv-binarization/binarization-origin.png)
 
-![Jpeg-error](/img/in-post/opencv-binarization/binarization-result.png)
+![Bin-result](/img/in-post/opencv-binarization/binarization-result.png)
 
 大家可以再拉一拉滑动条，看看不同的阈值二值化出来的图片怎么样~上图的值私以为是看起来比较舒服的~
 
