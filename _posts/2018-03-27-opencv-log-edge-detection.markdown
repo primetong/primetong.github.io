@@ -68,7 +68,7 @@ LoG算子到中心的距离与位置加权系数的关系曲线象墨西哥草�
 
 * 依赖：OpenCV 2.4.9
 
-程序是在VS2013和OpenCV2.4.9下运行的，部分参考代码如下，相应位置有详细注释，整个工程文件见下载页面：
+程序是在VS2013和OpenCV2.4.9下运行的，部分参考代码如下，相应位置有详细注释，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/LoGEdgeDetection)：
 
 ```
 
@@ -120,4 +120,4 @@ int main()
 
 从实验比较结果来看，OpenCV自带的LoG算子的图像边缘检测和自定义的算子的肉眼观测结果差距不大，大家可以自己试试改一改自定义算子来观察实验结果~
 
-基于LoG算子的图像边缘检测，整个工程文件见下载页面
+基于LoG算子的图像边缘检测，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/LoGEdgeDetection)
