@@ -20,7 +20,7 @@ tags:
 
 比如我们有以下这样的两张图要进行拼接，还得考虑平时拍照时手抖拍斜了的情况嘛！
 
-![Origin-1-left](/img/in-post/opencv-sift-surf-stiching/stiching-origin-one-left.jpg)![Origin-2-right](/img/in-post/opencv-sift-surf-stiching/stiching-origin-one-right.jpg)
+![Origin-1](/img/in-post/opencv-sift-surf-stiching/stiching-origin-one.jpg)
 
 大家看到可能会大喊：哎呀！这是哪个手残党拍的照片！拍斜了不说，光线还差了那么多，这拼起来多丑对不对！不要怕，只要满足图像拼接的基本需求——两张图有比较多的重叠部分，其他一切都不是问题~
 
@@ -91,9 +91,10 @@ SIFT特征匹配的例子：
 
 再来点测试结果，方便与之后的SURF特征作比较：
 
-左图：![Origin-2-left](/img/in-post/opencv-sift-surf-stiching/stiching-origin-two-left.jpg)
-右图：![Origin-2-right](/img/in-post/opencv-sift-surf-stiching/stiching-origin-two-right.jpg)
+待拼接原图：![Origin-2](/img/in-post/opencv-sift-surf-stiching/stiching-origin-two.jpg)
+
 可以看到待拼接的左图、右图是有明显的、角度不大的旋转。现在给出基于SIFT特征的微旋转图像拼接与融合生成全景图像运行结果：![Running-2-sift](/img/in-post/opencv-sift-surf-stiching/sift-running-result-two.jpg)
+
 以及效果：![Result-2-sift](/img/in-post/opencv-sift-surf-stiching/sift-stiching-result-two.jpg)
 
 ### 三、基于SURF特征的微旋转图像拼接与融合生成全景图像
