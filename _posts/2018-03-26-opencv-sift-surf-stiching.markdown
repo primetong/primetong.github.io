@@ -94,7 +94,7 @@ SIFT特征匹配的例子：
 左图：![Origin-2-left](/img/in-post/opencv-sift-surf-stiching/stiching-origin-two-left.jpg)
 右图：![Origin-2-right](/img/in-post/opencv-sift-surf-stiching/stiching-origin-two-right.jpg)
 可以看到待拼接的左图、右图是有明显的、角度不大的旋转。现在给出基于SIFT特征的微旋转图像拼接与融合生成全景图像运行结果：![Running-2-sift](/img/in-post/opencv-sift-surf-stiching/sift-running-result-two.jpg)
-以及效果：![Result-2-sift](/img/in-post/opencv-sift-surf-stiching/sift-running-result-two.jpg)
+以及效果：![Result-2-sift](/img/in-post/opencv-sift-surf-stiching/sift-stiching-result-two.jpg)
 
 ### 三、基于SURF特征的微旋转图像拼接与融合生成全景图像
 
