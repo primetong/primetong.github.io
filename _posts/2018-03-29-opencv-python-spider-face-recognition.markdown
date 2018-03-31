@@ -98,7 +98,7 @@ requests库的开发者为我们提供了详细的中文教程，查询起来很
 
 本文选择的是第二种方案，实现起来比较容易。目前的很多爬虫小工具也是采用的这种方案。
 
-经过初步调试，已经可以爬取百度图片，部分参考代码（Python3）如下，相应位置有详细注释。整个工程文件见下载页面（爬虫代码放在了工程目录下）：
+经过初步调试，已经可以爬取百度图片，部分参考代码（Python3）如下，相应位置有详细注释。整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/FaceRecognition)（爬虫代码放在了工程目录下）：
 
 ```
 
@@ -251,11 +251,14 @@ OpenCV自带的扩展库中有一个FaceRecognizer类，下面有3个人脸识�
 
 OpenCV中LBPH人脸识别类如下进行创建：
 
-> Ptr<FaceRecognizer> LBPHRecog = createLBPHFaceRecognizer(1, 8 ,3, 3, 50);         //构造LBPH人脸识别类的对象并初始化  
+> 
+Ptr<FaceRecognizer> LBPHRecog = createLBPHFaceRecognizer(1, 8 ,3, 3, 50);  
+//构造LBPH人脸识别类的对象并初始化  
 
 下面看一下构造函数的原型，进而解释一下参数的含义：
 
-> CV_EXPORTS_W Ptr<FaceRecognizer> createLBPHFaceRecognizer(int radius=1, int neighbors=8, int grid_x=8, int grid_y=8, double threshold = DBL_MAX);  
+> 
+CV_EXPORTS_W Ptr<FaceRecognizer> createLBPHFaceRecognizer(int radius=1, int neighbors=8, int grid_x=8, int grid_y=8, double threshold = DBL_MAX);  
 /*可以看到，参数是有默认值得，各个参数的含义如下：int radius = 1 ：中心像素点到周围像素点的距离，相邻像素距离为1，以此类推  
 int neighbors = 8 ：选取的周围像素点的个数  
 int grid_x= 8 ：将一张图片在x方向分成8块  
@@ -274,21 +277,20 @@ double threshold = DBL_MAX  ：LBP特征向量相似度的阈值，只有两张�
 
 ## 三、基于Python的网络爬虫与OpenCV扩展库中的人脸识别算法比较
 
-#### 1. 分别爬取特朗普、奥巴马、希拉里三人的60张图片，去掉爬取失败、不相关的以及多人的一些图片之后，再分别选取出30张图片作为训练图片，5张图片作为预测图片。
-
-#### 定义第1类是特朗普，第2类是奥巴马，第3类是希拉里，进行分类训练预测计算准确率。
+1.分别爬取特朗普、奥巴马、希拉里三人的60张图片，去掉爬取失败、不相关的以及多人的一些图片之后，再分别选取出30张图片作为训练图片，5张图片作为预测图片。  
+定义第1类是特朗普，第2类是奥巴马，第3类是希拉里，进行分类训练预测计算准确率。
 
 处理前：
 
 ![Crawl-pic](/img/in-post/opencv-python-spider-face-recognition/crawl-pic.png)
 
-#### 2. 从网络上爬取到的图片大小肯定是不一样的，而且一张图片大部分都是非感兴趣内容（人脸识别肯定只对人脸感兴趣啦），需要对输入算法模型的图片进行一系列的预处理，包括检测人脸部分、提取人脸部分、转灰度图像、修改成统一大小、对齐、归一化等操作，都可以通过OpenCV的一些库函数来完成。
+2.从网络上爬取到的图片大小肯定是不一样的，而且一张图片大部分都是非感兴趣内容（人脸识别肯定只对人脸感兴趣啦），需要对输入算法模型的图片进行一系列的预处理，包括检测人脸部分、提取人脸部分、转灰度图像、修改成统一大小、对齐、归一化等操作，都可以通过OpenCV的一些库函数来完成。
 
 处理后：
 
 ![Crawl-after-porcess](/img/in-post/opencv-python-spider-face-recognition/crawl-after-porcess.png)
 
-#### 3.结果分析：
+3.结果分析：
 
 ##### （1）Eigenfaces特征算法结果：
 
@@ -384,9 +386,9 @@ int main(){
 
 由于算法实现是调用已经封装好的库，因此实现起来主要的工作就是如何将从网络上爬取到的图片作为输入来进行训练以及测试准确率。而直接爬取的图片，有姿态、表情以及分辨率等问题，还需要人工标注进行第一步的处理。
 
-####3. 训练样本的预处理很重要
+#### 3. 训练样本的预处理很重要
 
 需要注意的是，无论是训练样本和要识别的样本，人脸用统一的尺寸，这样才能有好的效果，可以用Opencv中resize函数等进行这样的操作。对于同一张人脸，尽可能得获得不同角度的照片作为训练样本，特征算法模型才能更好地识别不同角度的人脸。
 
 
-基于Python的网络爬虫与OpenCV扩展库中的人脸识别算法比较，整个工程文件见下载页面
+基于Python的网络爬虫与OpenCV扩展库中的人脸识别算法比较，整个工程文件见[下载页面](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.DigitalImageProcessing/FaceRecognition)
