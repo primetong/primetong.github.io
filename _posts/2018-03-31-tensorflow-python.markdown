@@ -261,8 +261,7 @@ for x in animals:
 所以for x in ...循环就是把每个元素代入变量x，然后执行缩进块的语句。
 - 第二种循环是while循环，只要条件满足，就不断循环，条件不满足时退出循环
 
-```
-python
+```python
 #!/usr/bin/python
 #coding:utf-8
 
