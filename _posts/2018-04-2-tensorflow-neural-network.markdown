@@ -60,7 +60,7 @@ Tensorflow中的每一个计算都是计算图上的一个节点，而节点之�
 	sess.run(…)
 	sess.close()
 	```
-
+在交互式环境下，通过设置默认会话获取张量更加方便。Tensorflow提供了一种在交互式环境下构建默认会话的函数tf.InteractiveSession()，这个函数会自动将生成的会话注册为默认会话。
 下面给出一个例子，可以跑一跑试试看：
 
 ```python
@@ -111,4 +111,188 @@ with tf.Session() as sess:
 #### ④参数：
 
 - 即线上的权重w，用变量表示，常随机生成
-- 常用函数：`tf.truncated_normal()`、`tf.random_uniform`、`tf.zeros`、`tf.ones`、`tf.fill()`、`tf.constant()`等
+- 常用函数：`tf.truncated_normal()`、`tf.random_uniform`、`tf.zeros`、`tf.ones`、`tf.fill()`、`tf.constant()`等，在下面的神经网络前向传播中会具体介绍。
+
+## 神经网络（Neural Network）
+
+### 神经网络解决分类问题的4个步骤：
+
+#### ①提取问题中实体的特征向量作为神经网络的输入（构建输入）
+
+#### ②定义神经网络的结构，并定义如何从神经网络的*输入到输出*（神经网络前向传播过程，先搭计算图，再用会话执行）：
+
+##### 前向传播算法：
+
+神经元是构建神经网络的最小单元，每个神经元也可以称为节点。神经网络的前向传播算法可以通过`tf.matmul`函数实现。
+
+###### 神经网络的参数和TensorFlow变量：
+
+TensorFlow中变量的作用就是保存和更新神经网络中的参数，变量通过tf.Variable函数实现，变量的初始化可以通过三种方式实现：
+
+- 可以通过随机数生成函数，来对变量初始化，例如`tf.random_normal(正态分布)`、`tf.truncated_normal(正太分布，但如果随机出来的值偏离平均值超过两个标准差，那么这个数将会被重新随机)`、`tf.random_uniform(平均分布)`、`tf.random_gamma(Gamma分布)`
+- 也可以通过常数来初始化一个变量。例如`tf.zeros(产生全零的数组)`、`tf.ones(产生全1的数组)`、`tf.fill(产生一个全部为给定数字的数组)`、`tf.constant(产生一个给定值的常量)`。
+- 也支持通过其他变量的初始值来初始化新的变量。例如：
+	- w2=tf.Variable(weights.initialized_value())
+	- w3=tf.Variable(weights.initialized_value()*2.0)
+		- 以上代码w2的初始值与weights相同，w3的初始值则是weights初始值的两倍。
+
+虽然在变量定义时给出了变量初始化的方法，但是这个方法并没有真正运行。在会话中需要将其运行。在会话中运行初始化主要有两种方式：
+
+- 1.sess.run(w1.initializer)
+sess.run(w2.initializer)
+这种方式的缺点：当变量的数目增多时，或者变量之间存在依赖关系式，单个调用的方案就比较麻烦。
+
+- 2.可以通过tf.global_variables_initializer函数实现所有变量的初始化（旧版TensorFlow中使用tf.initialize_all_variables()。但是这个函数已经被弃用，由tf.global_variables_initializer()代替）。
+init_op=tf.global_variables_initializer()
+sess.run(init_op)
+优点：不需要对变量一个一个初始化，同时这种方式会自动处理变量之间的依赖关系。
+可以使用w1.assign(w2)函数，来对w1的值进行更新，需要注意的是要保证w1和w2张量中的数据类型是一致的。
+
+举个例子如下：
+
+```python
+import tensorflow as tf  
+  
+#声明w1和w2两个变量，还通过seed参数设定了随机种子，这样可以保证每次运行结果是一样的  
+w1=tf.Variable(tf.random_normal([2,3],stddev=1,seed=1))  
+w2=tf.Variable(tf.random_normal([3,1],stddev=1,seed=1))  
+  
+#设定x（输入）为常数。注意这里x是一个1*2的矩阵  
+x=tf.constant([[0.7,0.9]])  
+  
+a=tf.matmul(x,w1)#实现x和w1相乘  
+y=tf.matmul(a,w2)  
+  
+sess=tf.Session()  
+  
+#初始化方法1  
+#sess.run(w1.initializer)#初始化w1  
+#sess.run(w2.initializer)#初始化w2  
+  
+#初始化方法2  
+init_op=tf.global_variables_initializer()  
+sess.run(init_op)  
+  
+print(sess.run(y))  
+  
+sess.close()  
+```
+
+#### ③大量特征数据喂给NN（NN反向传播，训练模型），迭代优化参数（通过训练数据来调整神经网络中参数的取值）：
+
+在神经网络优化算法中，最常用的方法是反向传播算法，在TensorFlow中通过`tf.train.AdamOptimizer()`实现，例如`train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)`。
+
+TensorFlow提供了placeholder机制用于提供输入数据。placeholder相当于定义了一个位置，这个位置中的数据在程序运行时在指定。在placeholder定义时，这个位置上上的数据类型是需要指定的，同时placeholder的类型也是不可以改变的。Placeholder中数据的维度可以根据数据推导出，所以不一定要给出。
+
+在会话中执行时，需要提供一个feed_dict来指定x的取值。Feed_dict是一个字典，字典中需要给出每个用到的placeholder的取值。
+
+##### 反向传播：
+
+- （1）训练NN模型 反向传输：在所有参数上用梯度下降，使NN模型在训练数据上的损失函数最小。
+- （2）损失函数（Loss）：预测的y和已知答案y_的差距
+	- 交叉熵（cross_entropy）:H(p,q) = -Σp(x)logq(x)
+	- 均方误差：MSE(y_,y) = Σ(y - y_)^2 / n
+	- 自定义
+- （3）学习率Learning_rate：每次参数更新的幅度
+
+#### ④使用训练好的神经网络来预测未知的数据（测试数据）。
+
+---
+
+简单总结一下TensorFlow中神经网络前传以及反传更新参数的过程：
+- ①初始化参数，训练次数 = 0；
+- ②选一小撮（batch_size）训练数据；
+- ③前向传播得到预测值；
+- ④反向传播更新参数；
+- ⑤以上不停循环直到次数到或者目标到（目标一般是损失函数的要求）
+
+下面给出了一个完整的程序来训练神经网络解决二分类问题，从这段程序中可以总结出训练神经网络的通用过程，可分为以下4个步骤：
+- ①抽取实体特征作为输入喂给神经网络
+- ②定义神经网络的结构和前向传播算法的结果
+- ③定义损失函数以及选择反向传播算法优化的算法
+- ④生成会话并且在训练数据集上反复运行反向传播优化算法。
+
+```python
+#coding:utf-8
+#1.导入模块，生成模拟数据集。
+import tensorflow as tf
+#通过Numpy工具包模拟数据集
+from numpy.random import RandomState
+BATCH_SIZE = 8	#训练数据batch的大小 
+
+#通过随机数生成一个模拟数据集
+rdm = RandomState(1)
+X = rdm.rand(128,2)
+#定义规则来给出样本的标签。所有x1+x2<1的样例都认为是正样本而其他的为负样本。1表示正样本；0表示负样本  
+Y = [[int(x0 + x1 < 1)] for (x0, x1) in X]
+
+
+#2. 定义神经网络的常量,参数，输入和输出节点,定义前向传播过程。
+w1= tf.Variable(tf.random_normal([2, 3], stddev=1, seed=1))
+w2= tf.Variable(tf.random_normal([3, 1], stddev=1, seed=1))
+
+
+x = tf.placeholder(tf.float32, shape=(None, 2), name="x-input")
+y_= tf.placeholder(tf.float32, shape=(None, 1), name='y-input')
+
+
+a = tf.matmul(x, w1)
+y = tf.matmul(a, w2)
+
+#3. 定义损失函数及反向传播算法。
+cross_entropy = -tf.reduce_mean(y_ * tf.log(tf.clip_by_value(y, 1e-10, 1.0))) 
+train_step = tf.train.AdamOptimizer(0.001).minimize(cross_entropy)
+#train_step = tf.train.GradientDescentOptimizer(0.001).minimize(cross_entropy)
+#train_step = tf.train.MomentumOptimizer(0.001,0.9).minimize(cross_entropy)
+
+
+#4. 创建一个会话来运行TensorFlow程序。反复运行反向传播
+with tf.Session() as sess:
+	#初始化参数
+    init_op = tf.initialize_all_variables()
+    sess.run(init_op)
+    # 输出目前（未经训练）的参数取值。
+    print "w1:\n", sess.run(w1)
+    print "w2:\n", sess.run(w2)
+    print "\n"
+    
+    # 训练模型。
+    STEPS = 5000
+    for i in range(STEPS):
+		#每次选取batch_size个样本进行训练
+        start = (i*BATCH_SIZE) % 128
+        end = (i*BATCH_SIZE) % 128 + BATCH_SIZE
+		#通过选取的样本训练神经网络并更新参数
+        sess.run(train_step, feed_dict={x: X[start:end], y_: Y[start:end]})
+        if i % 1000 == 0:
+			#每隔一段时间计算在所有数据集上的交叉熵并输出
+            total_cross_entropy = sess.run(cross_entropy, feed_dict={x: X, y_: Y})
+            print("After %d training step(s), cross entropy on all data is %g" % (i, total_cross_entropy))
+    
+    # 输出训练后的参数取值。
+    print "\n"
+    print "w1:\n", sess.run(w1)
+    print "w2:\n", sess.run(w2)
+
+"""#输出结果的部分打印信息
+w1: [[-0.81131822  1.48459876  0.06532937]
+ [-2.44270396  0.0992484   0.59122431]]
+w2: [[-0.81131822]
+ [ 1.48459876]
+ [ 0.06532937]]
+
+
+After 0 training step(s), cross entropy on all data is 0.0674925
+After 1000 training step(s), cross entropy on all data is 0.0163385
+After 2000 training step(s), cross entropy on all data is 0.00907547
+After 3000 training step(s), cross entropy on all data is 0.00714436
+After 4000 training step(s), cross entropy on all data is 0.00578471
+
+
+w1: [[-1.9618274   2.58235407  1.68203783]
+ [-3.4681716   1.06982327  2.11788988]]
+w2: [[-1.8247149 ]
+ [ 2.68546653]
+ [ 1.41819501]]
+"""
+```
