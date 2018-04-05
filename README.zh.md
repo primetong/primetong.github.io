@@ -1,6 +1,6 @@
 # Witt Blog 
 
-* [这里](https://github.com/primetong/primetong.github.io)仅仅是博客的源码和文档，想看博客内容的请移步[胃痛的博客](https://primetong.github.io/)
+* [这里](https://github.com/primetong/primetong.github.io)仅仅是博客的源码和文档，想直接看博客内容的请移步[胃痛的博客](https://primetong.github.io/)
 * 博客还在开发中，后期会考虑陆续开发一些新功能，博客内容也是一直在更新的
 * 采用jekyll搭建
 * 使用了Hux的模板，在其基础上增删了一些功能，喜欢可以打Star~
@@ -48,13 +48,17 @@
 
 	* 安装完ruby，之后就是要安装RubyGems，gem是一个ruby的包管理系统，可以用gem很方便的在本地安装ruby应用。
 
-	安装方法
-	>//在RubyGems官网上下载压缩包，解压到你的本地任意位置
-//在Terminal中
-cd yourpath to RubyGems //你解压的位置
-ruby setup.rb
+	安装方法  
+
+	> //在RubyGems官网上下载压缩包，解压到你的本地任意位置  
+	//在Terminal中  
+	cd yourpath to RubyGems //你解压的位置  
+	ruby setup.rb  
+
 * 4.有了gem之后安装jekyll就很容易了，其实用过nodejs和npm的同学应该很熟悉这样的包安装，真是这个世界手残脑残们的救星（情不自禁地摸了摸自己快残了的手） 安装jekyll，有了gem，直接在Terminal里面输入以下代码：
->$ gem install jekyll 
+ 
+	> $ gem install jekyll 
+
 * 5.好了，现在你的电脑已经准备完毕了。如果你是想自己捣鼓，可以根据这样的目录结构在你的username.github.io文件夹下建立以下目录结构：
 
 > ├── _config.yml
@@ -84,23 +88,27 @@ ruby setup.rb
 	*  [极简，或者说极客风格模板](https://github.com/huxpro/huxpro.github.io/)
 	*  [jekyll的模板网站](http://jekyllthemes.org/)，可以找到各式各样你喜欢的模板。
 * 7.下载完了模板，可以吧里面的内容解压到你自己的网站目录底下。这时候你可以测试一下：
->$ cd you website path //cd到你的网站目录下
-$ jekyll serve
-//一个开发服务器将会运行在 http://localhost:4000/
-//你就能在本地服务器看到你用模板搭建的网站了
+	
+	> $ cd you website path //cd到你的网站目录下  
+	$ jekyll serve  
+	//一个开发服务器将会运行在 http://localhost:4000/  
+	//你就能在本地服务器看到你用模板搭建的网站了  
+
 * 8.这时候可以看一下jekyll的设置，让你把模板变成你自己个性化的内容。在网站根目录下面找到 _config.yml,这里会有几个比较关键的设置： 里面的permalink 就是你博客文章的目录结构，可以用pretty来简单的设置成日期+文章标题.html，也可以用自己喜欢的结构来设置。 记得把encoding 设置成utf-8，这样有利于中英文双语的写作和阅读。
 * 9.到这里你就可以开始写博客了，所有的文章直接放在_posts文件夹下面，格式就是我们之前提到的markdown文件，默认的格式是.md和.markdown文件。Jekyll对于博文，都是要求放在_posts目录下面，同时对博文的文件名有严格的规定，必须保持格式YEAR-MONTH-DAY-title.MARKUP，通常情况下，咱们采用推荐的Markdown撰写博文，基于该格式，本博文的文件名为2018-03-23-Welcome-to-Witt-Blog.markdown。每篇文章的开始处需要使用yml格式来写明这篇文章的简单介绍，格式如下：
 
->     ---
-    author: Witt
-    date: 2018-03-23 13:42:24+00:00
-    layout: post
-    title: Welcome to Witt Blog | 胃痛的GitHub博客开通啦
-    tags:
-    - life
-    - begin
-    - javascript
-    ---
+	```
+	---
+	author: Witt
+	date: 2018-03-23 13:42:24+00:00
+	layout: post
+	title: Welcome to Witt Blog | 胃痛的GitHub博客开通啦
+	tags:
+	- life
+	- begin
+	- javascript
+	---
+	```
 
 * 10.到此为止可以开始尽情的写博客了，用GitHub软件同步到你的repository里面，网站上面就可以进行正常的显示了。
 
@@ -134,4 +142,4 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 
 1. 这个模板是从这里[黄玄的博客](https://github.com/huxpro/huxpro.github.io/)  cloned 的。 感谢这个作者
 
-3. 感谢 Jekyll、Github Pages、Bootstrap和Hux!
+2. 感谢 Jekyll、Github Pages、Bootstrap和Hux!

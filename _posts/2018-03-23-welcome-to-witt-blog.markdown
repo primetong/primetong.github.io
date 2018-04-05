@@ -47,21 +47,25 @@ tags:
 ---
 
 ### 安装流程
-- 1. 要用github pages，首先要在github中建立一个基于你的用户名的repository: 比如说你的用户名叫username，就要建立名为username.github.io的repo。在以前的github版本中还需要在后台开启pages的功能，现在系统检测到这样的repo名称之后，会在setting中自动开启GitHub Pages的功能。
-- 2. 这样之后你就可以把这个repo克隆到本地随意进行修改了，在这个里面上传的网页就是你的网站的内容了，可以上传一个index.html试一试，这就是你的网站主页了。 关于GitHub的使用，我想我不用多说吧，都看到这里的还不会用Git，我就[黑人问号脸]了我。
-- 3. 之后我们就要在本地部署jekyll，jekyll的原理很简单。这是一个已经合成好的静态html网站结构，你用这个结构在username.github.io文件夹里面粘帖好所有文件。再把更新完的本地repo推送到GitHub的master branch里面，你的网站就更新建设完毕了。 
+- 1.要用github pages，首先要在github中建立一个基于你的用户名的repository: 比如说你的用户名叫username，就要建立名为username.github.io的repo。在以前的github版本中还需要在后台开启pages的功能，现在系统检测到这样的repo名称之后，会在setting中自动开启GitHub Pages的功能。
+- 2.这样之后你就可以把这个repo克隆到本地随意进行修改了，在这个里面上传的网页就是你的网站的内容了，可以上传一个index.html试一试，这就是你的网站主页了。 关于GitHub的使用，我想我不用多说吧，都看到这里的还不会用Git，我就[黑人问号脸]了我。
+- 3.之后我们就要在本地部署jekyll，jekyll的原理很简单。这是一个已经合成好的静态html网站结构，你用这个结构在username.github.io文件夹里面粘帖好所有文件。再把更新完的本地repo推送到GitHub的master branch里面，你的网站就更新建设完毕了。 
 首先你需要ruby来使用本地jekyll。Mac和Linux可以用Terminal配合yum或者brew这样的包管理器很方便的安装ruby。Windows下更是方便，可以直接用集成好的Ruby installer来进行安装，安装包下载以及安装过程也不用多说了。
 
 	* 安装完ruby，之后就是要安装RubyGems，gem是一个ruby的包管理系统，可以用gem很方便的在本地安装ruby应用。
 
-	安装方法
-	>//在RubyGems官网上下载压缩包，解压到你的本地任意位置
-//在Terminal中
-cd yourpath to RubyGems //你解压的位置
-ruby setup.rb
-- 4. 有了gem之后安装jekyll就很容易了，其实用过nodejs和npm的同学应该很熟悉这样的包安装，真是这个世界手残脑残们的救星（情不自禁地摸了摸自己快残了的手） 安装jekyll，有了gem，直接在Terminal里面输入以下代码：
->$ gem install jekyll 
-- 5. 好了，现在你的电脑已经准备完毕了。如果你是想自己捣鼓，可以根据这样的目录结构在你的username.github.io文件夹下建立以下目录结构：
+	安装方法  
+
+	> //在RubyGems官网上下载压缩包，解压到你的本地任意位置  
+	//在Terminal中  
+	cd yourpath to RubyGems //你解压的位置  
+	ruby setup.rb  
+
+- 4.有了gem之后安装jekyll就很容易了，其实用过nodejs和npm的同学应该很熟悉这样的包安装，真是这个世界手残脑残们的救星（情不自禁地摸了摸自己快残了的手） 安装jekyll，有了gem，直接在Terminal里面输入以下代码：
+ 
+	> $ gem install jekyll 
+
+- 5.好了，现在你的电脑已经准备完毕了。如果你是想自己捣鼓，可以根据这样的目录结构在你的username.github.io文件夹下建立以下目录结构：
 
 > ├── _config.yml
 
@@ -86,29 +90,34 @@ ruby setup.rb
 > └── index.html
 
 你可以一个个依次建立起来，然后在自己编写一个你想要的博客。
-- 6. 如果你只是个普通用户，只是想要一个模板然后开始写自己的博客。那就很容易了，有几个可以简单开始的模板。
+- 6.如果你只是个普通用户，只是想要一个模板然后开始写自己的博客。那就很容易了，有几个可以简单开始的模板。
 	-  [极简，或者说极客风格模板](https://github.com/huxpro/huxpro.github.io/)
 	-  [jekyll的模板网站](http://jekyllthemes.org/)，可以找到各式各样你喜欢的模板。
-- 7. 下载完了模板，可以吧里面的内容解压到你自己的网站目录底下。这时候你可以测试一下：
->$ cd you website path //cd到你的网站目录下
-$ jekyll serve
-//一个开发服务器将会运行在 http://localhost:4000/
-//你就能在本地服务器看到你用模板搭建的网站了
-- 8. 这时候可以看一下jekyll的设置，让你把模板变成你自己个性化的内容。在网站根目录下面找到 _config.yml,这里会有几个比较关键的设置： 里面的permalink 就是你博客文章的目录结构，可以用pretty来简单的设置成日期+文章标题.html，也可以用自己喜欢的结构来设置。 记得把encoding 设置成utf-8，这样有利于中英文双语的写作和阅读。
-- 9. 到这里你就可以开始写博客了，所有的文章直接放在_posts文件夹下面，格式就是我们之前提到的markdown文件，默认的格式是.md和.markdown文件。Jekyll对于博文，都是要求放在_posts目录下面，同时对博文的文件名有严格的规定，必须保持格式YEAR-MONTH-DAY-title.MARKUP，通常情况下，咱们采用推荐的Markdown撰写博文，基于该格式，本博文的文件名为2018-03-23-Welcome-to-Witt-Blog.markdown。每篇文章的开始处需要使用yml格式来写明这篇文章的简单介绍，格式如下：
+- 7.下载完了模板，可以吧里面的内容解压到你自己的网站目录底下。这时候你可以测试一下：
+	
+	> $ cd you website path //cd到你的网站目录下  
+	$ jekyll serve  
+	//一个开发服务器将会运行在 http://localhost:4000/  
+	//你就能在本地服务器看到你用模板搭建的网站了  
 
->     ---
-    author: Witt
-    date: 2018-03-23 13:42:24+00:00
-    layout: post
-    title: Welcome to Witt Blog | 胃痛的GitHub博客开通啦
-    tags:
-    - life
-    - begin
-    - javascript
-    ---
-- 10. 到此为止可以开始尽情的写博客了，用GitHub软件同步到你的repository里面，网站上面就可以进行正常的显示了。如果说要添加一下有用的extra功能的话，评论和相关文章这两个功能比较多人会关注。 评论我们可以用Disqus国内应该也有类似的网站，到Disqus注册一个账号，选择添加评论区域到自己的网页，你将会的得到一段代码，根据不同的模板，把代码添加到_post/post.html或者_include/post.html里你的文章底下，那当这篇文章被访问时，下方就会有评论区了
-- 11. 相关文章的功能也比较好做，jekyll本来就集成了site.related_posts的功能，自动会寻找相关内容的文章，在你的post代码下面融入以下代码：
+- 8.这时候可以看一下jekyll的设置，让你把模板变成你自己个性化的内容。在网站根目录下面找到 _config.yml,这里会有几个比较关键的设置： 里面的permalink 就是你博客文章的目录结构，可以用pretty来简单的设置成日期+文章标题.html，也可以用自己喜欢的结构来设置。 记得把encoding 设置成utf-8，这样有利于中英文双语的写作和阅读。
+- 9.到这里你就可以开始写博客了，所有的文章直接放在_posts文件夹下面，格式就是我们之前提到的markdown文件，默认的格式是.md和.markdown文件。Jekyll对于博文，都是要求放在_posts目录下面，同时对博文的文件名有严格的规定，必须保持格式YEAR-MONTH-DAY-title.MARKUP，通常情况下，咱们采用推荐的Markdown撰写博文，基于该格式，本博文的文件名为2018-03-23-Welcome-to-Witt-Blog.markdown。每篇文章的开始处需要使用yml格式来写明这篇文章的简单介绍，格式如下：
+
+	```
+	---
+	author: Witt
+	date: 2018-03-23 13:42:24+00:00
+	layout: post
+	title: Welcome to Witt Blog | 胃痛的GitHub博客开通啦
+	tags:
+	- life
+	- begin
+	- javascript
+	---
+	```
+
+- 10.到此为止可以开始尽情的写博客了，用GitHub软件同步到你的repository里面，网站上面就可以进行正常的显示了。如果说要添加一下有用的extra功能的话，评论和相关文章这两个功能比较多人会关注。 评论我们可以用Disqus国内应该也有类似的网站，到Disqus注册一个账号，选择添加评论区域到自己的网页，你将会的得到一段代码，根据不同的模板，把代码添加到_post/post.html或者_include/post.html里你的文章底下，那当这篇文章被访问时，下方就会有评论区了
+- 11.相关文章的功能也比较好做，jekyll本来就集成了site.related_posts的功能，自动会寻找相关内容的文章，在你的post代码下面融入以下代码：
 
 ```
 <aside class="related">
@@ -148,7 +157,7 @@ $ jekyll serve
 
 你每篇文章下面就会有三个相关文章的链接了。
 
-- 12. 这篇本地jekyll博客搭建教程就到这里，希望对你能有些帮助，感谢~
+- 12.这篇本地jekyll博客搭建教程就到这里，希望对你能有些帮助，感谢~
 
 ---
 
@@ -169,7 +178,7 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 
 1. 这个模板是从这里[黄玄的博客](https://github.com/huxpro/huxpro.github.io/)  cloned 的。 感谢这个作者
 
-3. 感谢 Jekyll、Github Pages、Bootstrap和Hux!
+2. 感谢 Jekyll、Github Pages、Bootstrap和Hux!
 
 ## 后记
 

@@ -1,7 +1,7 @@
 # Witt Blog
 
-##### Hello world,this is Witt.The blog is still being constructed.
-##### If you like this blog,please star it~
+##### Hello world, this is Witt. The blog is still being constructed.
+##### If you like this blog, please star it~
 
 ## View
 
