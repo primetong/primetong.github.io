@@ -8,6 +8,8 @@ header-img: "img/post-bg-tensorflow.jpg"
 tags:
     - TensorFlow
     - Neural Network
+    - 前向传播
+    - 反向传播
 ---
 
 ## 初识TensorFlow
