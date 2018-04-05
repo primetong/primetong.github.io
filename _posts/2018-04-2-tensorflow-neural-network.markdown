@@ -20,6 +20,33 @@ TensorFlow是谷歌基于DistBelief进行研发的第二代人工智能学习系
 TensorFlow可被用于语音识别或图像识别等多项机器学习和深度学习领域，对2011年开发的深度学习基础架构DistBelief进行了各方面的改进，它可在小到一部智能手机、大到数千台数据中心服务器的各种设备上运行。TensorFlow将完全开源，任何人都可以用。  
 在过去的一年（2017年）中，TensorFlow成功成为Github年度报告盘点的赢家——因为Github Fork最多的项目就是它，这也是唯一上榜的机器学习项目（机器学习包含深度学习）。近两年，机器学习热度疯涨，在GitHub上无论是Star数量还是Fork数都很高，这也说明很多开发者都开始向这个方向转型，可能已经在准备将机器学习作为今后的主要研究方向之一。
 
+### TensorFlow的安装
+
+关于TensorFlow的安装，网上也有很多教程了，对于大家来说应该没有什么难度，这里只讲讲CPU版本的安装  
+[TensorFlow只支持Nvidia计算能力（compute capability）大于3.0的GPU。如果要支持GPU，那么还需要安装Nvidia的Cuda Tookit（版本大于等于7.0）和cuDNN（版本大于等于v2）]  
+在Ubuntu/Linux 64-bit, Python 2.7环境， CPU Only环境下安装简单来说有三步：  
+
+- 1.安装pip
+
+```
+$ sudo apt-get install python-pip python-dev
+```
+
+- 2.找到合适的安装包URL
+
+```
+$ export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-1.3.0-cp27-none-linux_x86_x64.whl
+```
+
+- 3.通过pip安装TensorFlow
+
+```
+$sudo pip install --upgrade $TF_BINARY_URL
+```
+
+通过以上简单3步，TensorFlow环境就安装完成了（可以根据自己机子的需求修改相应指令参数）。  
+此时可以编译运行[验证环境小程序](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/1.tf_test_env)，测试TensorFlow环境是否已经成功安装。
+
 ### TensorFlow的组成
 
 Tensorflow中的每一个计算都是计算图上的一个节点，而节点之间的边描述了计算之间的依赖关系。  
@@ -303,3 +330,5 @@ w2: [[-1.8247149 ]
  [ 1.41819501]]
 """
 ```
+
+如果想通过实战来加深理解，可以参考这些[初识TensorFlow的小DEMO](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/3.tensorflow_neural_network)
