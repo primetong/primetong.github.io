@@ -331,4 +331,4 @@ w2: [[-1.8247149 ]
 """
 ```
 
-如果想通过实战来加深理解，可以参考这些[初识TensorFlow的小DEMO](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/3.tensorflow_neural_network)
+如果想通过实战来加深理解，可以参考这些[初识TensorFlow和神经网络的小DEMO](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/3.tensorflow_neural_network)
