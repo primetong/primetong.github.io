@@ -41,7 +41,7 @@ $ export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tenso
 - 3.通过pip安装TensorFlow
 
 ```
-$sudo pip install --upgrade $TF_BINARY_URL
+$ sudo pip install --upgrade $TF_BINARY_URL
 ```
 
 通过以上简单3步，TensorFlow环境就安装完成了（可以根据自己机子的需求修改相应指令参数）。  
