@@ -42,7 +42,7 @@ Tensorflow中的每一个计算都是计算图上的一个节点，而节点之�
 - 用节点搭建NN（节点构成计算图）
 - 只搭建不运算（Y = X * W）
 
-#### ③会话（Session）：
+##### ③会话（Session）：
 
 - 执行计算图中的节点运算，拥有并管理TensorFlow此程序运行时的所有资源，计算完成后，需要关闭会话。
 - 会话的形式有两种：
@@ -109,7 +109,7 @@ Tensorflow中的每一个计算都是计算图上的一个节点，而节点之�
 	#print(result.eval())  
 	```
 
-#### ④参数：
+##### ④参数：
 
 - 即线上的权重w，用变量表示，常随机生成
 - 常用函数：`tf.truncated_normal()`、`tf.random_uniform`、`tf.zeros`、`tf.ones`、`tf.fill()`、`tf.constant()`等，在下面的神经网络前向传播中会具体介绍。
@@ -141,15 +141,15 @@ TensorFlow中变量的作用就是保存和更新神经网络中的参数，变�
 
 虽然在变量定义时给出了变量初始化的方法，但是这个方法并没有真正运行。在会话中需要将其运行。在会话中运行初始化主要有两种方式：
 
-- 1.sess.run(w1.initializer)
-sess.run(w2.initializer)
+- 1.sess.run(w1.initializer)  
+sess.run(w2.initializer)  
 这种方式的缺点：当变量的数目增多时，或者变量之间存在依赖关系式，单个调用的方案就比较麻烦。
 
-- 2.可以通过tf.global_variables_initializer函数实现所有变量的初始化（旧版TensorFlow中使用tf.initialize_all_variables()。但是这个函数已经被弃用，由tf.global_variables_initializer()代替）。
-init_op=tf.global_variables_initializer()
-sess.run(init_op)
+- 2.可以通过tf.global_variables_initializer函数实现所有变量的初始化（旧版TensorFlow中使用tf.initialize_all_variables()。但是这个函数已经被弃用，由tf.global_variables_initializer()代替）。  
+init_op=tf.global_variables_initializer()  
+sess.run(init_op)  
 优点：不需要对变量一个一个初始化，同时这种方式会自动处理变量之间的依赖关系。
-可以使用w1.assign(w2)函数，来对w1的值进行更新，需要注意的是要保证w1和w2张量中的数据类型是一致的。
+可以使用w1.assign(w2)函数，来对w1的值进行更新，需要注意的是要保证w1和w2张量中的数据类型是一致的。  
 
 	举个例子如下：
 	
