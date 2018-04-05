@@ -554,5 +554,5 @@ for filename in os.listdir(a):
 
 ***
 That's all.Thx~
-感谢：本篇导学深受[廖雪峰Python教程](https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000)影响
+感谢：本篇导学深受[廖雪峰Python教程](https://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000)影响  
 如果想通过实战来加深理解，可以参考这些[Python入门的小DEMO](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/2.python_syntax)
