@@ -259,4 +259,12 @@ After 38000 steps, loss: 0.058174
 """
 ```
 
+运行结果：
+- 以原点为圆心，半径为1的圆把散点划分成红蓝两部分，并加入随机噪音：
+	![Resource-noise](/img/in-post/tensorflow-deep-neural-network/resource-noise.png)
+- 训练不带正则项的损失函数mse_loss，可以看到有严重的过拟合现象：
+	![Segmentation-without-regularization](/img/in-post/tensorflow-deep-neural-network/segmentation-without-regularization.png)
+- 训练带正则项的损失函数loss，解决了前面的过拟合问题：
+	![Segmentation-with-regularization](/img/in-post/tensorflow-deep-neural-network/segmentation-with-regularization.png)
+
 如果想通过实战来加深理解损失函数、学习率、滑动平均等，可以参考这些[深层神经网络和优化算法的小DEMO](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/4.tf_deep_neural_network)
