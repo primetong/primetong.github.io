@@ -2,7 +2,7 @@
 layout:     post
 title:      "TensorFlow Notes 5 | 【TensorFlow深度学习框架教程五】"
 subtitle:   "MNIST数字数据集识别与TensorFlow模型持久化"
-date:       2018-4-6
+date:       2018-04-06
 author:     "Witt"
 header-img: "img/post-bg-tensorflow.jpg"
 tags:
