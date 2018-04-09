@@ -2,7 +2,7 @@
 layout:     post
 title:      "TensorFlow Notes 4 | 【TensorFlow深度学习框架教程四】"
 subtitle:   "深层神经网络"
-date:       2018-4-3
+date:       2018-04-03
 author:     "Witt"
 header-img: "img/post-bg-tensorflow.jpg"
 tags:
