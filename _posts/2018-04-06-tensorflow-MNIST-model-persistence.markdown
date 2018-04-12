@@ -14,16 +14,42 @@ tags:
 ## MNIST数字数据集识别
 
 ### MNIST数据集
-现在几乎每个深度学习的入门样例都是MNIST数据集，可见其影响之深，可以说是最出名的手写体数字识别数据集一点儿都不为过。
+当我们开始学习编程的时候，第一件事往往是学习打印"Hello World"。就好比编程入门有Hello World，机器学习入门有MNIST。深度学习当然也是啦，现在几乎每个深度学习的入门样例都是MNIST数据集，可见其影响之深。
+MNIST是一个入门级的计算机视觉数据集，它包含各种手写数字图片，可以说是最出名的手写体数字识别数据集一点儿都不为过。
+
+![Mnist_img](/img/in-post/tensorflow-mnist-model-persistence/mnist_img.png)
+
+它也包含每一张图片对应的标签，告诉我们这个是数字几。比如，上面这四张图片的标签分别是5，0，4，1。
 - MNIST提供60000张图片作为数据集（其中5.5W张图是train训练集，5K张图是validation验证集）
+- 其中训练集用来估计模型，验证集用来确定网络结构或者控制模型复杂程度的参数，而测试集则检验最终选择最优的模型的性能如何。
 - 此外还提供了10000张图作为测试集，与上述60000数据集彼此不可见
+- 这样的切分很重要，在机器学习模型设计时必须有一个单独的测试数据集不用于训练而是用来评估这个模型的性能，从而更加容易把设计的模型推广到其他数据集上（泛化）。
+
+正如前面提到的一样，每一个MNIST数据单元有两部分组成：一张包含手写数字的图片和一个对应的标签。我们把这些图片设为“xs”，把这些标签设为“ys”。训练数据集和测试数据集都包含xs和ys，比如训练数据集的图片是`mnist.train.images`，训练数据集的标签是`mnist.train.labels`。
+每一张图片包含28X28个像素点。我们可以用一个数字数组来表示这张图片：
+
+![Mnist-matrix](/img/in-post/tensorflow-mnist-model-persistence/mnist-matrix.png)
+
+我们把这个数组展开成一个向量，长度是 28x28 = 784。如何展开这个数组（数字间的顺序）不重要，只要保持各个图片采用相同的方式展开。从这个角度来看，MNIST数据集的图片就是在784维向量空间里面的点, 并且拥有比较[复杂的结构](http://colah.github.io/posts/2014-10-Visualizing-MNIST/) (提醒: 此类数据的可视化是计算密集型的)。
+
+展平图片的数字数组会丢失图片的二维结构信息。这显然是不理想的，最优秀的计算机视觉方法会挖掘并利用这些结构信息，我们会在后续教程中介绍。但是在这个教程中我们忽略这些结构，所介绍的简单数学模型，softmax回归(softmax regression)，不会利用这些结构信息。
+
+因此，在MNIST训练数据集中，`mnist.train.images`是一个形状为`[60000, 784]`的张量，第一个维度数字用来索引图片，第二个维度数字用来索引每张图片中的像素点。在此张量里的每一个元素，都表示某张图片里的某个像素的强度值，值介于0和1之间。
+
+![Mnist-train-xs](/img/in-post/tensorflow-mnist-model-persistence/mnist-train-xs.png)
+
+相对应的MNIST数据集的标签是介于0到9的数字，用来描述给定图片里表示的数字。为了用于这个教程，我们使标签数据是"one-hot vectors"。 一个one-hot向量除了某一位的数字是1以外其余各维度数字都是0。因此在MNIST中，数字n将表示成一个只有在第n维度（从0开始）数字为1的10维向量。比如说，标签0（即人类识别的数字0）表示成([1,0,0,0,0,0,0,0,0,0])。因此，`mnist.train.labels`是一个`[60000, 10]`的矩阵。
+
+![Mnist-train-ys](/img/in-post/tensorflow-mnist-model-persistence/mnist-train-ys.png)
+
+MNIST数据集的官网是[Yann LeCun's website](http://yann.lecun.com/exdb/mnist/)。可以通过官网下载，当然也可以通过[我的GitHub](https://github.com/primetong/LearningCollectionOfWitt/tree/master/2017.TensorFlow%26Python/5.tf_mnist_model_persistence/mnist_without_model_persistence/MNIST_data)下载，除此之外还有一些小DEMO提供给大家。
 
 #### 导入数据集
 ```Python
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("保存数据集的路径/MNIST_data", one_hot=True)
 ```
-这里的one_hot=True，表明使用标签“one-hot vectors”，即一个one-hot向量除了某一位的数字是1以外其余各维度数字都是0。因此在MNIST中，数字n将表示成一个只有在第n维度（从0开始）数字为1的10维向量。比如说，标签0（即人类识别的数字0）表示成([1,0,0,0,0,0,0,0,0,0])。因此，mnist.train.labels是一个[60000, 10]的矩阵
+这里的one_hot=True，表明使用标签“one-hot vectors”。
 
 导入成功后，正常应该是可以看到4行解压提取成功的提示，如下图所示：
 
