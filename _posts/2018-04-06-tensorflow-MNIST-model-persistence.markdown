@@ -17,7 +17,7 @@ tags:
 当我们开始学习编程的时候，第一件事往往是学习打印"Hello World"。就好比编程入门有Hello World，机器学习入门有MNIST。深度学习当然也是啦，现在几乎每个深度学习的入门样例都是MNIST数据集，可见其影响之深。  
 MNIST是一个入门级的计算机视觉数据集，它包含各种手写数字图片，可以说是最出名的手写体数字识别数据集一点儿都不为过。  
 
-![Mnist_img](/img/in-post/tensorflow-mnist-model-persistence/mnist_img.png)
+![Mnist-img](/img/in-post/tensorflow-mnist-model-persistence/mnist-img.png)
 
 它也包含每一张图片对应的标签，告诉我们这个是数字几。比如，上面这四张图片的标签分别是5，0，4，1。
 - MNIST提供60000张图片作为数据集（其中5.5W张图是train训练集，5K张图是validation验证集）  
@@ -54,18 +54,18 @@ mnist = input_data.read_data_sets("保存数据集的路径/MNIST_data", one_hot
 
 导入成功后，正常应该是可以看到4行解压提取成功的提示，如下图所示：
 
-![Import_mnist](/img/in-post/tensorflow-mnist-model-persistence/import_mnist.png)
+![Import-mnist](/img/in-post/tensorflow-mnist-model-persistence/import-mnist.png)
 
 我们在导入了MNIST数据集以后，就可以使用mnist里的一些函数，比如`mnist.train.labels[0]`来查看第一张图的标签如下，就是一个one-hot形式的：
 
-![Mnist_labels](/img/in-post/tensorflow-mnist-model-persistence/mnist_labels.png)
+![Mnist-labels](/img/in-post/tensorflow-mnist-model-persistence/mnist-labels.png)
 
 说明了第一张图的标签是7，此时可以使用`mnist.train.images[0]`会返回一个28 x 28 = 784的一个一维数组，当然光看数组并不是那么容易看出是数字7。
 
 #### 返回对应集的样本数
 在导入了MNIST数据集以后，就可以使用`mnist.train或validation或test.num_examples`可以返回对应训练集/验证集/测试集的样本数。
 
-![Mnist_num](/img/in-post/tensorflow-mnist-model-persistence/mnist_num.png)
+![Mnist-num](/img/in-post/tensorflow-mnist-model-persistence/mnist-num.png)
 
 ### MNIST数字数据集识别
 下面给出了使用MNIST数字数据集识别的一个完整实例，直接运行可以看到每训练（train）1000步在验证集（validation）上得到的准确率（accuracy）并且在所有步数训练完（模型训练完毕）后，整个（网络）模型在测试集（test）上的准确率的表现情况。  
