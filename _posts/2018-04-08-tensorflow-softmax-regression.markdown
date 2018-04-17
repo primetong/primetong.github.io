@@ -91,3 +91,53 @@ y = tf.nn.softmax(tf.matmul(x,W) + b)
 至此，我们先用了几行简短的代码来设置变量，然后只用了一行代码来定义我们的模型。TensorFlow不仅仅可以使softmax回归模型计算变得特别简单，它也用这种非常灵活的方式来描述其他各种数值计算，从机器学习模型对物理学模拟仿真模型。一旦被定义好之后，我们的模型就可以在不同的设备上运行,包括计算机的CPU，GPU，甚至是手机！
 
 ## 训练模型
+为了训练我们的模型，我们首先需要定义一个指标来评估这个模型是好的。其实，在机器学习，我们通常定义指标来表示一个模型是坏的，这个指标称为成本（cost）或损失（loss），然后尽量最小化这个指标。但是，这两种方式是相同的。
+
+一个非常常见的，非常漂亮的成本函数是“交叉熵”（cross-entropy）。交叉熵产生于信息论里面的信息压缩编码技术，但是它后来演变成为从博弈论到机器学习等其他领域里的重要技术手段。它的定义如下：
+
+![Softmax-log](/img/in-post/tensorflow-softmax-regression/softmax-log.png)
+
+y 是我们预测的概率分布, y' 是实际的分布（我们输入的one-hot vector)。比较粗糙的理解是，交叉熵是用来衡量我们的预测用于描述真相的低效性。更详细的关于交叉熵的解释超出本教程的范畴，但是你还是很有必要好好理解它，这里推荐一篇[colah的博客](http://colah.github.io/posts/2015-09-Visual-Information/)对于交叉熵的解释非常详尽，作者的其他文章对于本系列教程的贡献也很大。
+
+为了计算交叉熵，我们首先需要添加一个新的占位符用于输入正确值：
+```Python
+y_ = tf.placeholder("float", [None,10])
+```
+然后我们可以用
+
+![Softmax-logy](/img/in-post/tensorflow-softmax-regression/softmax-logy.png)
+
+计算交叉熵：
+```Python
+cross_entropy = -tf.reduce_sum(y_*tf.log(y))
+```
+首先，用`tf.log`计算`y`的每个元素的对数。接下来，我们把`y_`的每一个元素和`tf.log(y)`的对应元素相乘。最后，用`tf.reduce_sum`计算张量的所有元素的总和。（注意，这里的交叉熵不仅仅用来衡量单一的一对预测和真实值，而是所有100幅图片的交叉熵的总和。对于100个数据点的预测表现比单一数据点的表现能更好地描述我们的模型的性能。
+
+现在我们知道需要我们的模型做什么啦，用TensorFlow来训练它是非常容易的。因为TensorFlow拥有一张描述你各个计算单元的图，它可以自动地使用[反向传播算法(backpropagation algorithm)](http://colah.github.io/posts/2015-08-Backprop/)（具体也不展开细）来有效地确定你的变量是如何影响你想要最小化的那个成本值的。然后，TensorFlow会用你选择的优化算法来不断地修改变量以降低成本。
+```Python
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+```
+在这里，我们要求TensorFlow用梯度下降算法（gradient descent algorithm）以0.01的学习速率最小化交叉熵。梯度下降算法（gradient descent algorithm）是一个简单的学习过程，TensorFlow只需将每个变量一点点地往使成本不断降低的方向移动。当然TensorFlow也提供了[其他许多优化算法](http://wiki.jikexueyuan.com/project/tensorflow-zh/api_docs/python/train.html)：只要简单地调整一行代码就可以使用其他的算法。
+
+TensorFlow在这里实际上所做的是，它会在后台给描述你的计算的那张图里面增加一系列新的计算操作单元用于实现反向传播算法和梯度下降算法。然后，它返回给你的只是一个单一的操作，当运行这个操作时，它用梯度下降算法训练你的模型，微调你的变量，不断减少成本。
+
+现在，我们已经设置好了我们的模型。在运行计算之前，我们需要添加一个操作来初始化我们创建的变量：
+```Python
+init = tf.initialize_all_variables()
+```
+现在我们可以在一个`Session`里面启动我们的模型，并且初始化变量：
+```Python
+sess = tf.Session()
+sess.run(init)
+```
+然后开始训练模型，这里我们让模型循环训练1000次！
+```Python
+for i in range(1000):
+  batch_xs, batch_ys = mnist.train.next_batch(100)
+  sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
+```
+该循环的每个步骤中，我们都会随机抓取训练数据中的100个批处理数据点，然后我们用这些数据点作为参数替换之前的占位符来运行`train_step`。
+
+使用一小部分的随机数据来进行训练被称为随机训练（stochastic training）- 在这里更确切的说是随机梯度下降训练。在理想情况下，我们希望用我们所有的数据来进行每一步的训练，因为这能给我们更好的训练结果，但显然这需要很大的计算开销。所以，每一次训练我们可以使用不同的数据子集，这样做既可以减少计算开销，又可以最大化地学习到数据集的总体特性。
+
+## 评估我们的模型
