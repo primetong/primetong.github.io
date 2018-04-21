@@ -7,8 +7,8 @@ author:     "Witt"
 header-img: "img/post-bg-tensorflow.jpg"
 tags:
     - TensorFlow
-    - Softmax
-    - Regression
+    - MNIST
+    - CNN
 ---
 
 ## 深入MNIST
@@ -16,4 +16,30 @@ tags:
 
 TensorFlow是一个非常强大的用来做大规模数值计算的库。其所擅长的任务之一就是实现以及训练深度神经网络。
 
-在本教程中，我们将复习一下构建一个TensorFlow模型的基本步骤，以及MNIST的一些基本使用方法。并将通过这些步骤为MNIST构建一个深度卷积神经网络。
+在本教程中，我们将复习一下构建一个TensorFlow模型的基本步骤，以及MNIST的一些基本使用方法（假设已经看过本系列教程的前几篇）。并将通过这些步骤为MNIST构建一个深度卷积神经网络。
+
+##### 导入MNIST数据集
+```Python
+from tensorflow.examples.tutorials.mnist import input_data
+mnist = input_data.read_data_sets("保存数据集的路径/MNIST_data", one_hot=True)
+#载入MNIST数据集，如果指定路径"保存数据集的路径/MNIST_data"下没有已经下载好的数据集，那么TensorFlow会自动从Yann LeCun的官网下载数据集
+```
+这在之前的教程中已经介绍了，还不太了解的可以再去看看。  
+这里，mnist是一个轻量级的类。它以Numpy数组的形式存储着训练、校验和测试数据集。同时提供了一个函数，用于在迭代中获得minibatch，后面我们将会用到。
+
+##### 运行TensorFlow的InteractiveSession
+Tensorflow依赖于一个高效的C++后端来进行计算。与后端的这个连接叫做session。一般而言，使用TensorFlow程序的流程是先创建一个图，然后在session中启动它。
+
+这里，我们使用更加方便的`InteractiveSession`类。通过它，你可以更加灵活地构建你的代码。它能让你在运行图的时候，插入一些计算图，这些计算图是由某些操作(operations)构成的。这对于工作在交互式环境中的人们来说非常便利，比如使用IPython。如果你没有使用`InteractiveSession`，那么你需要在启动session之前构建整个计算图，然后启动该计算图。
+```Python
+import tensorflow as tf
+sess = tf.InteractiveSession()
+```
+###### 计算图
+为了在Python中进行高效的数值计算，我们通常会使用像NumPy一类的库，将一些诸如矩阵乘法的耗时操作在Python环境的外部来计算，这些计算通常会通过其它语言并用更为高效的代码来实现。
+
+但遗憾的是，每一个操作切换回Python环境时仍需要不小的开销。如果你想在GPU或者分布式环境中计算时，这一开销更加可怖，这一开销主要可能是用来进行数据迁移。
+
+TensorFlow也是在Python外部完成其主要工作，但是进行了改进以避免这种开销。其并没有采用在Python外部独立运行某个耗时操作的方式，而是先让我们描述一个交互操作图，然后完全将其运行在Python外部。这与Theano或Torch的做法类似。
+
+因此Python代码的目的是用来构建这个可以在外部运行的计算图，以及安排计算图的哪一部分应该被运行。
