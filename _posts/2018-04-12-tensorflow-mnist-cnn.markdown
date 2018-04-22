@@ -43,3 +43,44 @@ sess = tf.InteractiveSession()
 TensorFlow也是在Python外部完成其主要工作，但是进行了改进以避免这种开销。其并没有采用在Python外部独立运行某个耗时操作的方式，而是先让我们描述一个交互操作图，然后完全将其运行在Python外部。这与Theano或Torch的做法类似。
 
 因此Python代码的目的是用来构建这个可以在外部运行的计算图，以及安排计算图的哪一部分应该被运行。
+
+##### 构建Softmax回归模型
+我们先建立一个拥有一个线性层的softmax回归模型。之后，我们再将其扩展为一个拥有多层卷积网络的softmax回归模型。
+
+###### 占位符
+我们通过为输入图像和目标输出类别创建节点，来开始构建计算图。
+```Python
+x = tf.placeholder("float", shape=[None, 784])
+y_ = tf.placeholder("float", shape=[None, 10])
+```
+这里的`x`和`y`并不是特定的值，相反，他们都只是一个`占位符`，可以在TensorFlow运行某一计算时根据该占位符输入具体的值。
+
+输入图片`x`是一个2维的浮点数张量。这里，分配给它的`shape`为`[None, 784]`，其中784是一张展平的MNIST图片的维度。`None`表示其值大小不定，在这里作为第一个维度值，用以指代batch的大小，意即`x`的数量不定。输出类别值`y_`也是一个2维张量，其中每一行为一个10维的one-hot向量,用于代表对应某一MNIST图片的类别。
+
+虽然`placeholder`的`shape`参数是可选的，但有了它，TensorFlow能够自动捕捉因数据维度不一致导致的错误。
+
+###### 变量
+我们现在为模型定义权重`W`和偏置`b`。可以将它们当作额外的输入量，但是TensorFlow有一个更好的处理方式：`变量`。一个`变量`代表着TensorFlow计算图中的一个值，能够在计算过程中使用，甚至进行修改。在机器学习的应用过程中，模型参数一般用`Variable`来表示。
+```Python
+W = tf.Variable(tf.zeros([784,10]))
+b = tf.Variable(tf.zeros([10]))
+```
+我们在调用`tf.Variable`的时候传入初始值。在这个例子里，我们把`W`和`b`都初始化为零向量。`W`是一个784x10的矩阵（因为我们有784个特征和10个输出值）。`b`是一个10维的向量（因为我们有10个分类）。
+
+"Before `Variables` can be used within a session, they must be initialized using that session. This step takes the initial values (in this case tensors full of zeros) that have already been specified, and assigns them to each `Variable`. This can be done for all `Variables` at once."
+
+`变量`需要通过seesion初始化后，才能在session中使用。这一初始化步骤为，为初始值指定具体值（本例当中是全为零），并将其分配给每个`变量`,可以一次性为所有`变量`完成此操作。
+```Python
+sess.run(tf.initialize_all_variables())
+```
+
+###### 类别预测与损失函数
+现在我们可以实现我们的回归模型了。这只需要一行！我们把向量化后的图片`x`和权重矩阵`W`相乘，加上偏置`b`，然后计算每个分类的softmax概率值。
+```Python
+y = tf.nn.softmax(tf.matmul(x,W) + b)
+```
+可以很容易的为训练过程指定最小化误差用的损失函数，我们的损失函数是目标类别和预测类别之间的交叉熵。
+```Python
+cross_entropy = -tf.reduce_sum(y_*tf.log(y))
+```
+注意，`tf.reduce_sum`minibatch里的每张图片的交叉熵值都加起来了。我们计算的交叉熵是指整个minibatch的。
