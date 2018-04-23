@@ -84,3 +84,36 @@ y = tf.nn.softmax(tf.matmul(x,W) + b)
 cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 ```
 注意，`tf.reduce_sum`minibatch里的每张图片的交叉熵值都加起来了。我们计算的交叉熵是指整个minibatch的。
+
+##### 训练模型
+我们已经定义好模型和训练用的损失函数，那么用TensorFlow进行训练就很简单了。因为TensorFlow知道整个计算图，它可以使用自动微分法找到对于各个变量的损失的梯度值。TensorFlow有大量内置的优化算法 这个例子中，我们用最速下降法让交叉熵下降，步长为0.01.
+```Python
+train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
+```
+这一行代码实际上是用来往计算图上添加一个新操作，其中包括计算梯度，计算每个参数的步长变化，并且计算出新的参数值。
+
+返回的`train_step`操作对象，在运行时会使用梯度下降来更新参数。因此，整个模型的训练可以通过反复地运行`train_step`来完成。
+```Python
+for i in range(1000):
+  batch = mnist.train.next_batch(50)
+  train_step.run(feed_dict={x: batch[0], y_: batch[1]})
+```
+每一步迭代，我们都会加载50个训练样本，然后执行一次`train_step`，并通过`feed_dict`将`x`和`y_`张量`占位符`用训练训练数据替代。
+
+注意，在计算图中，你可以用`feed_dict`来替代任何张量，并不仅限于替换`占位符`。
+
+##### 评估模型
+那么我们的模型性能如何呢？
+
+首先让我们找出那些预测正确的标签。`tf.argmax`是一个非常有用的函数，它能给出某个tensor对象在某一维上的其数据最大值所在的索引值。由于标签向量是由0,1组成，因此最大值1所在的索引位置就是类别标签，比如`tf.argmax(y,1)`返回的是模型对于任一输入x预测到的标签值，而 `tf.argmax(y_,1)`代表正确的标签，我们可以用`tf.equal`来检测我们的预测是否与真实标签匹配(索引位置一样表示匹配)。
+```Python
+correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+```
+这里返回一个布尔数组。为了计算我们分类的准确率，我们将布尔值转换为浮点数来代表对、错，然后取平均值。例如：`[True, False, True, True]`变为`[1,0,1,1]`，计算出平均值为0.75。
+```Python
+accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+```
+最后，我们可以计算出在测试数据上的准确率，大概是91%。
+```Python
+print accuracy.eval(feed_dict={x: mnist.test.images, y_: mnist.test.labels})
+```
