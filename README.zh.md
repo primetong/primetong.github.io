@@ -32,11 +32,11 @@
 
 其优点非常明显：
 
-* **Markdown** 带来的优雅写作体验
-* 非常熟悉的 Git workflow ，**Git Commit 即 Blog Post**
-* 利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机
-	* 如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了
-* Jekyll 的自定制非常容易，基本就是个模版引擎
+* **Markdown** 带来的优雅写作体验。
+* 非常熟悉的 Git workflow ，**Git Commit 即 Blog Post**。
+* 利用 GitHub Pages 的域名和免费无限空间，不用自己折腾主机。
+	* 如果需要自定义域名，也只需要简单改改 DNS 加个 CNAME 就好了。
+* Jekyll 的自定制非常容易，基本就是个模版引擎。
 
 ***
 
@@ -116,15 +116,15 @@
 
 配置的过程中也没遇到什么坑，基本就是 Git 的流程，相当顺手
 
-大的 Jekyll 主题上直接 clone 了 Hux Blog（这个主题也相当有名，就不多赘述了。在他的模板基础上增删了一些功能，以后会考虑陆续开放什么的）
+大的 Jekyll 主题上直接 clone 了 Hux Blog（这个主题也相当有名，就不多赘述了。在他的模板基础上增删了一些功能，以后会考虑陆续开放什么的）。
 
 Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Less 里改就好了（平时更习惯 SCSS 些）。
 
-* 这篇README主要讲这个博客是搭建过程，想看其他博客内容的请移步[胃痛的博客](https://primetong.github.io/)
-* 采用jekyll搭建
-* 博客还在开发中，后期会考虑陆续开发一些新功能，博客内容也是一直在更新的
+* 这篇README主要讲这个博客是搭建过程，想看其他博客内容的请移步[胃痛的博客](https://primetong.github.io/)。
+* 采用jekyll搭建。
+* 博客还在开发中，后期会考虑陆续开发一些新功能，博客内容也是一直在更新的。
 * 使用了Hux的模板，在其基础上增删了一些功能，喜欢可以打Star~
-* 如果仅仅是喜欢模板请看[模板的使用教程](https://github.com/primetong/primetong.github.io/blob/master/README.zh.md)
+* 如果仅仅是喜欢模板请看[模板的使用教程](https://github.com/primetong/primetong.github.io/blob/master/README.zh.md)。
 
 ***
 
@@ -140,6 +140,6 @@ Theme 的 CSS 是基于 Bootstrap 定制的，看得不爽的地方直接在 Les
 
 ## 致谢
 
-1. 这个模板是从这里[黄玄的博客](https://github.com/huxpro/huxpro.github.io/)  cloned 的。 感谢这个作者
+1. 这个模板是从这里[黄玄的博客](https://github.com/huxpro/huxpro.github.io/)  cloned 的。感谢这个作者！
 
 2. 感谢 Jekyll、Github Pages、Bootstrap和Hux!
