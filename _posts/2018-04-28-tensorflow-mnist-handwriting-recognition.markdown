@@ -84,5 +84,5 @@ import Image, ImageFilter
 
 img = Image.open('./lena.jpg')
 img2 = img.filter(ImageFilter.BLUR)
-img2.save('/Users/michael/blur.jpg', 'jpeg')
+img2.save('./blur.jpg', 'jpeg')
 ```
