@@ -63,3 +63,26 @@ import Image
 im = Image.open("lena.png")
 ```
 如果成功，这个函数返回一个Image对象,可以使用该对象的属性来探索读入文件的内容。
+
+##### 操作图像
+来看看最常见的图像缩放操作，只需三四行代码：
+```
+import Image
+
+# 打开一个jpg图像文件，注意路径要改成对应的，绝对相对都可以:
+img = Image.open('./test.jpg')
+# 获得图像尺寸:
+w, h = img.size
+# 缩放到50%:
+img.thumbnail((w//2, h//2))
+# 把缩放后的图像用jpeg格式保存:
+img.save('./thumbnail.jpg', 'jpeg')
+```
+其他功能如切片、旋转、滤镜、输出文字、调色板等一应俱全。比如，模糊效果也只需几行代码：
+```
+import Image, ImageFilter
+
+img = Image.open('./lena.jpg')
+img2 = img.filter(ImageFilter.BLUR)
+img2.save('/Users/michael/blur.jpg', 'jpeg')
+```
