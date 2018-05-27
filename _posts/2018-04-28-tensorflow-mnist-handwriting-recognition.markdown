@@ -134,3 +134,4 @@ IOError: cannot open resource
 ```
 /Library/Fonts/Arial.ttf'
 ```
+要详细了解PIL的强大功能，还请参考[PIL官方文档](http://effbot.org/imagingbook/)，有比较详尽的介绍。
