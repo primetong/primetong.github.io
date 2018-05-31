@@ -146,3 +146,13 @@ IOError: cannot open resource
 最后，我们光有灰度图是不够的，我们的输入最终是需要一个二值化的图像，而每个像素的8位灰度值是一个0~255的数，这时候就需要除一个阈值进行二值化（归一化到0~1之间）。这个阈值在复杂任务中可以选用OTSU算法进行自适应阈值选取，但是在我们这个简单的任务中，通过实验获得较好的经验值是在200。
 
 经过上述分析，我们就可以写出对手写体数字的图片做读取输入并且预处理的程序了：
+```
+def img_read():
+    number = str(input("please input one number:"))
+    img = Image.open("./handwriting_number/" + number).convert('L').resize((28, 28))
+    imgbin = 1 - (np.array(img) ) / 200	#二值化图像并取反，除数是阈值
+    print imgbin
+    imgline = imgbin.reshape(1, 784)
+    #print imgline
+    return imgline
+```
